@@ -39,6 +39,24 @@ I started with the main MCU, which I chose to be an RPi Zero 2 W, since I have o
 (while still reliable) ELRS TX from BetaFPV, their [Nano TX](https://betafpv.com/products/elrs-nano-tx-module?variant=39416993382534). Initially, I spent some time trying to figure out what the connector on the bottom
 was, since it seemed to be something that commercial controllers used to connect to the ELRS module. 
 
+![alt text](src/image.png)
 
+I was unable to find the connector. However, while looking for the connector on BetaFPV datasheets, I found [this](https://www.aliexpress.us/item/3256805485078820.html?spm=a2g0o.productlist.main.2.45a074d4xgLRqQ&algo_pvid=9dc8a4cc-f35b-4f58-bf59-19bcd15fab2d&algo_exp_id=9dc8a4cc-f35b-4f58-bf59-19bcd15fab2d-1&pdp_ext_f=%7B%22order%22%3A%2230%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21USD%216.19%210.99%21%21%216.19%210.99%21%402101e7f617508718492568964e2212%2112000033963418090%21sea%21US%216238534509%21ABX&curPageLogUid=mIJLSDhtRmo2&utparam-url=scene%3Asearch%7Cquery_from%3A) adapter to connect Nano size ELRS TX modules to Micro size modules. In this listing, there were two variants, one with a case, and one with the PCB only. I decided that I would get the PCB only version and cut the wires that came from the Micro connector, allowing me to solder them to my custom PCB. The connection was simple enough, with GND, 5v, and a CSRF Serial Port, which allows the RPi to send data to the ELRS module.
 
-However, I was unable to find the connector. I did find a 
+|![alt text](src/image1.png)|
+|---------------------------|
+|I plan to cut the wire connecting the two boards together and solder them to my PCB|
+
+Next I created a symbol and footprint for a MEMS microphone module (INMP441), added it into my schematic, and wired it up. Creating the footprint was a bit difficult since I couldn't find a single datasheet anywhere for the microphone, so I had no idea of how far the headers are from the edges of its PCB. I was able to find a very lacking diagram that had a top-down view of the microphone and gave me the diameter of the PCB. using this measurement, I estimated the headers to be about 3.5mm from the edge of the PCB.
+
+|![alt text](src/image2.png) |![alt text](src/image3.png)|
+|----------------------------|---------------------------|
+| Symbol and footprint for the microphone                |
+
+Next I modeled a footprint for a JH16 joystick and wired two of those to an ADC since the Pi Zero doesn't have analog ports. For the ADC, I used a MCP3008 and wired it to GPIO 9, 10, and 11. I also added an OLED for some status information and added a lot of buttons for various purposes.
+
+![alt text](src/image4.png)
+
+Next, I searched for a while on AliExpress to try and find a VRX module. This was hard to find as most modules only exist in commercial headsets or FPV displays. I wanted to mount a display directly to the rc controller. I was able to find [this](https://www.aliexpress.us/item/3256803424747907.html?spm=a2g0o.productlist.main.1.10964bd5jEUqfr&algo_pvid=466401c5-08b4-45ab-8d8b-04525a704688&algo_exp_id=466401c5-08b4-45ab-8d8b-04525a704688-0&pdp_ext_f=%7B%22order%22%3A%2220%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21USD%2130.68%2116.68%21%21%2130.68%2116.68%21%40210337bc17508875091944994e60ac%2112000036739939395%21sea%21US%216238534509%21ABX&curPageLogUid=Nlgo7jIuctVy&utparam-url=scene%3Asearch%7Cquery_from%3A) reciever for $16.68. However, the finding a display for this reciever was just as hard. I initially looked for just an AV display module, but they were too expensive, averaging around $40. I found a reddit post where someone was trying to make something similar and found [this](https://oscarliang.com/diy-fpv-display-fatshark-module/) article where someone created a DIY FPV reciever using a car backup display. I searched AliExpress and quickly found [this](https://www.aliexpress.us/item/3256807008143866.html?spm=a2g0o.productlist.main.9.bb35HudVHudVKL&algo_pvid=0366aa92-9c5e-4f2f-99df-266da67ee4fd&algo_exp_id=0366aa92-9c5e-4f2f-99df-266da67ee4fd-8&pdp_ext_f=%7B%22order%22%3A%2240%22%2C%22eval%22%3A%221%22%7D&pdp_npi=4%40dis%21USD%2118.44%2118.07%21%21%21131.45%21128.82%21%402103010e17509028489278830e7b2f%2112000039762349015%21sea%21US%216238534509%21ABX&curPageLogUid=kccZc2bw8ewx&utparam-url=scene%3Asearch%7Cquery_from%3A&_gl=1*ix8opv*_gcl_au*Nzc4NzI1NjUyLjE3NDkxNDE5NTk.*_ga*NjY3NDI4MDUyMTYzMDA1LjE3NDM5NTQ4MDYxMzU.*_ga_VED1YSGNC7*czE3NTA5MDI4MDIkbzE2JGcxJHQxNzUwOTAyOTMwJGoxNCRsMCRoMA..) display for $18.07, which I plan to take apart and place in my 3D printed controller. Next I need to work on swapping the battery, as I had planned to power everything using 2 AA batteries, but the FPV reciever and display both use 12V, placing too much strain on an MT3608 module to step up the voltage. I would risk frying the step ups or ruining the batteries.
+
+## Total Time Spent: 5 Hours
