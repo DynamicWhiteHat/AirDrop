@@ -71,11 +71,11 @@ After spending about 1 hour looking through Amazon and AliExpress, I was able to
 
 Next, I worked on my PCB. I went through multiple iterations with various buttons and toggle switches, and I ended up with this layout: 
 
-![alt text](image6.png)
+![alt text](src/image6.png)
 
 For comparision, this was my initial PCB:
 
-![alt text](image7.png)
+![alt text](src/image7.png)
 
 One important change I made was switch from the BetaFPV ELRS TX module to a custom made one I found on the [ELRS Github](https://github.com/ExpressLRS/ExpressLRS-Hardware/tree/master/PCB/2400MHz/TX_SX1280_Super_Slim). By doing this, I was able to reduce the price by $10, since the custom built one used only 3 parts and a PCB. I also learned that the OLED was wired to the TX and not the RPi, which is why I removed it in my PCB.
 
